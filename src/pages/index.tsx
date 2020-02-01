@@ -1,13 +1,20 @@
-import { FC } from 'react'
+import { FC, MutableRefObject, useCallback, useRef } from 'react'
 
 const Index: FC = () => {
+  const ref = useRef() as MutableRefObject<HTMLVideoElement>
+  const playPause = useCallback(
+    () => (ref.current?.paused ? ref.current?.play() : ref.current?.pause()),
+    [ref.current?.paused],
+  )
+
   return (
     <>
+      <video ref={ref}>
+        <source src="/videos/bun33s.mp4" type="video/mp4" />
+      </video>
       <fieldset>
-        <legend>Look at this video</legend>
-        <video controls>
-          <source src="/videos/bun33s.mp4" type="video/mp4" />
-        </video>
+        <legend>Controls</legend>
+        <button onClick={playPause}>Play/Pause</button>
       </fieldset>
       <style jsx global>
         {`
